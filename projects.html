@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Showcase &mdash; Leigh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #000000;
+    --ink-soft: #4D4D4D;
+    --paper: #FFFFFF;
+    --paper-raised: #FFFFFF;
+    --accent: #000000;
+    --accent-deep: #333333;
+    --line: #D9D9D9;
+    --glow: rgba(0, 0, 0, 0.045);
+    --max: 1100px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 0.5em;
+    color: var(--ink);
+  }
+
+  h1 { font-size: clamp(2.2rem, 4vw, 3rem); }
+  h2 { font-size: clamp(1.9rem, 3.2vw, 2.5rem); }
+  h3 { font-size: 1.3rem; }
+
+  p { max-width: 62ch; color: var(--ink-soft); }
+
+  a { color: var(--accent-deep); }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  .site-header {
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 20px 0;
+  }
+
+  .site-header .wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 14px 28px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .logo {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .page-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .page-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease;
+  }
+
+  .page-nav a:hover { color: var(--ink); }
+
+  .page-nav a.current {
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom-color: var(--ink);
+  }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    margin: -6px;
+    padding: 6px;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    margin-top: 8px;
+    z-index: 20;
+  }
+
+  .menu-panel[hidden] { display: none; }
+
+  .menu-panel a {
+    padding: 10px 20px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.15s ease;
+  }
+
+  .menu-panel a:hover { background: rgba(0, 0, 0, 0.04); }
+
+  @media (min-width: 621px) {
+    .menu-toggle, .menu-panel { display: none !important; }
+  }
+
+  @media (max-width: 620px) {
+    .page-nav { display: none; }
+  }
+
+  /* Sections */
+  section {
+    padding: 72px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  section::before {
+    content: "";
+    position: absolute;
+    top: -160px;
+    left: 50%;
+    width: 380px;
+    height: 380px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, var(--glow) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  section > .wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Showcase intro */
+  .showcase-intro { padding-bottom: 0; }
+
+  .showcase-intro h1 {
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .showcase-intro p { font-size: 0.95rem; }
+
+  /* Project grid */
+  .projects { border-top: 1px solid var(--line); }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  .project-card {
+    border: 1px solid rgba(23, 35, 31, 0.08);
+    border-radius: 10px;
+    padding: 26px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%);
+    box-shadow: 0 1px 2px rgba(23, 35, 31, 0.04), 0 10px 24px rgba(23, 35, 31, 0.06);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .project-card:hover {
+    box-shadow: 0 2px 4px rgba(23, 35, 31, 0.05), 0 16px 36px rgba(23, 35, 31, 0.10);
+    transform: translateY(-2px);
+  }
+
+  .project-meta {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+
+  .project-card h3 { font-size: 1.2rem; margin-bottom: 0.35em; }
+  .project-card p { font-size: 0.92rem; margin: 0 0 14px; }
+
+  .project-card a {
+    font-size: 0.88rem;
+    text-decoration: none;
+    color: var(--accent-deep);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  footer a { color: var(--ink-soft); }
+
+  /* Responsive */
+  @media (max-width: 820px) {
+    .project-grid { grid-template-columns: 1fr; gap: 28px; }
+    section { padding: 52px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html">Leigh</a>
+    <nav class="page-nav">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html" class="current">Projects</a>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="7" x2="21" y2="7"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="17" x2="21" y2="17"></line>
+      </svg>
+    </button>
+    <nav class="menu-panel" id="menu-panel" hidden>
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="showcase-intro" id="top">
+    <div class="wrap">
+      <h1>Project Showcase</h1>
+      <p>A closer look at what I've built &mdash; from quick experiments to longer-running projects across AI, VR, and quantum computing.</p>
+    </div>
+  </section>
+
+  <section class="projects">
+    <div class="wrap">
+      <div class="project-grid">
+        <div class="project-card">
+          <span class="project-meta">AI</span>
+          <h3>Project title one</h3>
+          <p>A short line describing this project.</p>
+          <a href="assets/project-one.pdf">View project</a>
+        </div>
+        <div class="project-card">
+          <span class="project-meta">VR</span>
+          <h3>Project title two</h3>
+          <p>A short line describing this project.</p>
+          <a href="assets/project-two.pdf">View project</a>
+        </div>
+        <div class="project-card">
+          <span class="project-meta">Quantum Computing</span>
+          <h3>Project title three</h3>
+          <p>A short line describing this project.</p>
+          <a href="assets/project-three.pdf">View project</a>
+        </div>
+        <div class="project-card">
+          <span class="project-meta">Software</span>
+          <h3>Project title four</h3>
+          <p>A short line describing this project.</p>
+          <a href="assets/project-four.pdf">View project</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Leigh.</p>
+    <p><a href="#top">Back to top</a></p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('menu-toggle');
+    var panel = document.getElementById('menu-panel');
+    toggle.addEventListener('click', function () {
+      var isHidden = panel.hidden;
+      panel.hidden = !isHidden;
+      toggle.setAttribute('aria-expanded', String(isHidden));
+    });
+    document.addEventListener('click', function (e) {
+      if (!panel.hidden && !panel.contains(e.target) && !toggle.contains(e.target)) {
+        panel.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
