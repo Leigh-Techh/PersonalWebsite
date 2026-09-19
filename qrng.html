@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Random Number Generator &mdash; Leigh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #000000;
+    --ink-soft: #4D4D4D;
+    --paper: #FFFFFF;
+    --paper-raised: #FFFFFF;
+    --accent: #000000;
+    --accent-deep: #333333;
+    --line: #D9D9D9;
+    --glow: rgba(0, 0, 0, 0.045);
+    --max: 1100px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 0.5em;
+    color: var(--ink);
+  }
+
+  h1 { font-size: clamp(2.2rem, 4vw, 3rem); }
+  h2 { font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
+  h3 { font-size: 1.3rem; }
+
+  p { max-width: 62ch; color: var(--ink-soft); }
+
+  a { color: var(--accent-deep); }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  .site-header {
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 20px 0;
+  }
+
+  .site-header .wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 14px 28px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .logo {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .page-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .page-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease;
+  }
+
+  .page-nav a:hover { color: var(--ink); }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    margin: -6px;
+    padding: 6px;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    margin-top: 8px;
+    z-index: 20;
+  }
+
+  .menu-panel[hidden] { display: none; }
+
+  .menu-panel a {
+    padding: 10px 20px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.15s ease;
+  }
+
+  .menu-panel a:hover { background: rgba(0, 0, 0, 0.04); }
+
+  @media (min-width: 621px) {
+    .menu-toggle, .menu-panel { display: none !important; }
+  }
+
+  @media (max-width: 620px) {
+    .page-nav { display: none; }
+  }
+
+  /* Sections */
+  section {
+    padding: 72px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  section::before {
+    content: "";
+    position: absolute;
+    top: -160px;
+    left: 50%;
+    width: 380px;
+    height: 380px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, var(--glow) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  section > .wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Intro */
+  .project-intro { padding-bottom: 0; }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
+
+  .back-link:hover { color: var(--ink); }
+
+  .project-meta-tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 18px;
+  }
+
+  .project-intro h1 {
+    font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .project-intro p { font-size: 0.98rem; }
+
+  .download-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--accent-deep);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+  }
+
+  /* How it works */
+  .how-it-works { border-top: 1px solid var(--line); }
+
+  .how-it-works ol {
+    max-width: 62ch;
+    padding-left: 22px;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .how-it-works li { margin-bottom: 10px; }
+
+  /* Code block */
+  .code-section { border-top: 1px solid var(--line); }
+
+  pre {
+    background: #FAFAFA;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    color: #1a1a1a;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  footer a { color: var(--ink-soft); }
+
+  /* Responsive */
+  @media (max-width: 820px) {
+    section { padding: 52px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html">Leigh</a>
+    <nav class="page-nav">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="7" x2="21" y2="7"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="17" x2="21" y2="17"></line>
+      </svg>
+    </button>
+    <nav class="menu-panel" id="menu-panel" hidden>
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="project-intro" id="top">
+    <div class="wrap">
+      <a class="back-link" href="projects.html">&larr; Back to Projects</a>
+      <span class="project-meta-tag">Quantum Computing</span>
+      <h1>Quantum Random Number Generator</h1>
+      <p>My first project &mdash; a quantum random number generator built with Qiskit in VS Code. It uses a single qubit in superposition and measures it to produce a genuinely random bit, repeating this to build up longer random numbers.</p>
+      <a class="download-link" href="assets/qrng.py" download>Download qrng.py</a>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <ol>
+        <li>A Hadamard gate is applied to a single qubit, putting it into an equal superposition of |0&#10217; and |1&#10217;.</li>
+        <li>The qubit is measured, collapsing it randomly to 0 or 1.</li>
+        <li>This is repeated to build up an 8-bit string, which is then converted into an integer.</li>
+        <li>The circuit runs on Qiskit's AerSimulator, with each run generating one random bit.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="code-section">
+    <div class="wrap">
+      <h2>The code</h2>
+      <pre><code>from qiskit import ClassicalRegister, QuantumCircuit, QuantumRegister
+
+# Define 1 Qubit and 1 Classical Bit
+qr = QuantumRegister(1, "q")
+cr = ClassicalRegister(1, "c")
+qc = QuantumCircuit(qr, cr)
+
+# Apply Hadamard gate to put qubit in superposition
+qc.h(qr[0])
+
+# Measure qubit state into classical bit
+qc.measure(qr[0], cr[0])
+
+# Draw the circuit
+print(qc.draw(output="text"))
+
+from qiskit_aer import AerSimulator
+
+# Initialize Aer Simulator
+simulator = AerSimulator()
+
+
+def generate_quantum_bit():
+    # Run circuit once (shots=1)
+    result = simulator.run(qc, shots=1).result()
+    counts = result.get_counts()
+    # Extract measured bit ('0' or '1')
+    return list(counts.keys())[0]
+
+
+def generate_quantum_int(num_bits=8):
+    bit_string = "".join([generate_quantum_bit() for _ in range(num_bits)])
+    return int(bit_string, 2), bit_string
+
+
+# Example: Generate an 8-bit integer
+quantum_num, bit_str = generate_quantum_int(8)
+print(f"Binary: {bit_str} | Integer: {quantum_num}")</code></pre>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Leigh.</p>
+    <p><a href="#top">Back to top</a></p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('menu-toggle');
+    var panel = document.getElementById('menu-panel');
+    toggle.addEventListener('click', function () {
+      var isHidden = panel.hidden;
+      panel.hidden = !isHidden;
+      toggle.setAttribute('aria-expanded', String(isHidden));
+    });
+    document.addEventListener('click', function (e) {
+      if (!panel.hidden && !panel.contains(e.target) && !toggle.contains(e.target)) {
+        panel.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
