@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survive the Fish &mdash; Leigh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #000000;
+    --ink-soft: #4D4D4D;
+    --paper: #FFFFFF;
+    --paper-raised: #FFFFFF;
+    --accent: #000000;
+    --accent-deep: #333333;
+    --line: #D9D9D9;
+    --glow: rgba(0, 0, 0, 0.045);
+    --max: 1100px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 0.5em;
+    color: var(--ink);
+  }
+
+  h1 { font-size: clamp(2.2rem, 4vw, 3rem); }
+  h2 { font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
+
+  p { max-width: 62ch; color: var(--ink-soft); }
+
+  a { color: var(--accent-deep); }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  .site-header {
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 20px 0;
+  }
+
+  .site-header .wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 14px 28px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .logo {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .page-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .page-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease;
+  }
+
+  .page-nav a:hover { color: var(--ink); }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    margin: -6px;
+    padding: 6px;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    margin-top: 8px;
+    z-index: 20;
+  }
+
+  .menu-panel[hidden] { display: none; }
+
+  .menu-panel a {
+    padding: 10px 20px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.15s ease;
+  }
+
+  .menu-panel a:hover { background: rgba(0, 0, 0, 0.04); }
+
+  @media (min-width: 621px) {
+    .menu-toggle, .menu-panel { display: none !important; }
+  }
+
+  @media (max-width: 620px) {
+    .page-nav { display: none; }
+  }
+
+  /* Sections */
+  section {
+    padding: 72px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  section::before {
+    content: "";
+    position: absolute;
+    top: -160px;
+    left: 50%;
+    width: 380px;
+    height: 380px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, var(--glow) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  section > .wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Intro */
+  .project-intro { padding-bottom: 0; }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
+
+  .back-link:hover { color: var(--ink); }
+
+  .project-meta-tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 18px;
+  }
+
+  .project-intro h1 {
+    font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .project-intro p { font-size: 0.98rem; }
+
+  .open-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--accent-deep);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+  }
+
+  /* Notes */
+  .how-it-works { border-top: 1px solid var(--line); }
+
+  .how-it-works ul {
+    max-width: 62ch;
+    padding-left: 22px;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .how-it-works li { margin-bottom: 10px; }
+
+  /* Game embed */
+  .game-section { border-top: 1px solid var(--line); }
+
+  .game-embed {
+    background: #0c1a24;
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    max-width: 700px;
+    margin: 36px auto 0;
+    padding: 24px 16px 32px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 24px rgba(0, 0, 0, 0.06);
+    overflow-x: auto;
+  }
+
+  .game-embed #ui {
+    margin-top: 0;
+    font-size: 18px;
+    color: #7ec8e3;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .game-embed #shop {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .game-embed .shop-btn {
+    padding: 8px 16px;
+    background: #1b4f72;
+    border: 2px solid #2874a6;
+    color: #ffffff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .game-embed .shop-btn:hover { background: #2874a6; }
+
+  .game-embed .shop-btn.selected {
+    background: #e1b12c;
+    border-color: #fbc531;
+    color: #000000;
+    box-shadow: 0 0 8px #fbc531;
+  }
+
+  .game-embed .icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 2px;
+  }
+
+  .game-embed .icon-cannon { background: #00a8ff; border: 1px solid #fff; }
+  .game-embed .icon-fisherman { background: #2ed573; border: 1px solid #fff; }
+  .game-embed .icon-boat { background: #00d2d3; border: 1px solid #fff; }
+
+  .game-embed canvas {
+    background: #1a2b3c;
+    border: 4px solid #2e4d6b;
+    margin-top: 15px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  footer a { color: var(--ink-soft); }
+
+  /* Responsive */
+  @media (max-width: 820px) {
+    section { padding: 52px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html">Leigh</a>
+    <nav class="page-nav">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="7" x2="21" y2="7"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="17" x2="21" y2="17"></line>
+      </svg>
+    </button>
+    <nav class="menu-panel" id="menu-panel" hidden>
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="project-intro" id="top">
+    <div class="wrap">
+      <a class="back-link" href="projects.html">&larr; Back to Projects</a>
+      <span class="project-meta-tag">Game Dev</span>
+      <h1>Survive the Fish</h1>
+      <p>A browser-based tower defense game built with HTML5 canvas and vanilla JavaScript &mdash; no libraries, no frameworks. Place cannons, fishermen, and patrol boats along the coastline to stop waves of fish reaching the shore.</p>
+      <a class="open-link" href="survive-the-fish-game.html" target="_blank" rel="noopener noreferrer">Open in a new tab &nearr;</a>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <ul>
+        <li>Fish spawn in waves and swim along a fixed path toward your base &mdash; each wave gets tougher.</li>
+        <li>Gold earned from defeated fish buys three tower types: Cannon, Fisherman, and Patrol Boat, each with its own range, cost, and behaviour.</li>
+        <li>Click a tile to place the currently selected tower, as long as you've got the gold and the tile is free.</li>
+        <li>Lose all your lives and it's game over &mdash; click anywhere to return to the start menu and try again.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="game-section">
+    <div class="wrap">
+      <h2>Play it here</h2>
+      <div class="game-embed">
+        <div id="ui">
+          <span>Gold: <strong id="gold" style="color:#ffd700">150</strong></span> |
+          <span>Lives: <strong id="lives" style="color:#ff6b6b">10</strong></span> |
+          <span>Wave: <strong id="wave" style="color:#4cd137">1</strong></span>
+        </div>
+
+        <div id="shop">
+          <button class="shop-btn selected" id="btn-cannon" onclick="selectTower('cannon')">
+            <span class="icon icon-cannon"></span> Cannon (50G)
+          </button>
+          <button class="shop-btn" id="btn-fisherman" onclick="selectTower('fisherman')">
+            <span class="icon icon-fisherman"></span> Fisherman (100G)
+          </button>
+          <button class="shop-btn" id="btn-boat" onclick="selectTower('boat')">
+            <span class="icon icon-boat"></span> Patrol Boat (150G)
+          </button>
+        </div>
+
+        <canvas id="gameCanvas" width="640" height="480"></canvas>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Leigh.</p>
+    <p><a href="#top">Back to top</a></p>
+  </div>
+</footer>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+let gameState = 'START';
+let selectedTowerType = 'cannon';
+ctx.imageSmoothingEnabled = false;
+
+// --- MAP & GRID SETUP ---
+const TILE_SIZE = 40;
+const ROWS = canvas.height / TILE_SIZE; 
+const COLS = canvas.width / TILE_SIZE;   
+
+const grid = [
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
+  [0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+];
+
+const waypoints = [
+  {x: 0 * TILE_SIZE + 20, y: 1 * TILE_SIZE + 20},
+  {x: 3 * TILE_SIZE + 20, y: 1 * TILE_SIZE + 20},
+  {x: 3 * TILE_SIZE + 20, y: 3 * TILE_SIZE + 20},
+  {x: 9 * TILE_SIZE + 20, y: 3 * TILE_SIZE + 20},
+  {x: 9 * TILE_SIZE + 20, y: 6 * TILE_SIZE + 20},
+  {x: 3 * TILE_SIZE + 20, y: 6 * TILE_SIZE + 20},
+  {x: 3 * TILE_SIZE + 20, y: 8 * TILE_SIZE + 20},
+  {x: 15 * TILE_SIZE + 20, y: 8 * TILE_SIZE + 20}
+];
+
+let gold = 150;
+let lives = 10;
+let wave = 1;
+
+const COSTS = { cannon: 50, fisherman: 100, boat: 150 };
+const playBtn = { x: canvas.width / 2 - 90, y: 280, w: 180, h: 48 };
+const exitBtn = { x: canvas.width / 2 - 90, y: 345, w: 180, h: 48 };
+
+function selectTower(type) {
+  selectedTowerType = type;
+  document.querySelectorAll('.shop-btn').forEach(btn => btn.classList.remove('selected'));
+  document.getElementById(`btn-${type}`).classList.add('selected');
+}
+
+// --- FISH CLASSES ---
+class FishEnemy {
+  constructor(type = 'snapper') {
+    this.x = waypoints[0].x;
+    this.y = waypoints[0].y;
+    this.waypointIndex = 0;
+    this.type = type;
+    this.markedForDeletion = false;
+    this.swimPhase = Math.random() * Math.PI * 2;
+
+    if (type === 'yellowfin') {
+      this.speed = 2.4;
+      this.hp = 12 + (wave * 3);
+      this.bounty = 10;
+      this.color = '#fbc531';
+      this.finColor = '#e1b12c';
+    } else if (type === 'angler') {
+      this.speed = 0.9;
+      this.hp = 45 + (wave * 10);
+      this.bounty = 25;
+      this.color = '#2f3640';
+      this.finColor = '#718093';
+    } else {
+      this.speed = 1.5;
+      this.hp = 20 + (wave * 5);
+      this.bounty = 15;
+      this.color = '#e84118';
+      this.finColor = '#c23616';
+    }
+    this.maxHp = this.hp;
+  }
+
+  update() {
+    this.swimPhase += 0.15;
+    const target = waypoints[this.waypointIndex + 1];
+    if (!target) {
+      lives--;
+      this.markedForDeletion = true;
+      return;
+    }
+
+    const dx = target.x - this.x;
+    const dy = target.y - this.y;
+    const distance = Math.hypot(dx, dy);
+
+    if (distance < this.speed) {
+      this.x = target.x;
+      this.y = target.y;
+      this.waypointIndex++;
+    } else {
+      this.x += (dx / distance) * this.speed;
+      this.y += (dy / distance) * this.speed;
+    }
+  }
+
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+
+    const target = waypoints[this.waypointIndex + 1];
+    if (target) {
+      const angle = Math.atan2(target.y - this.y, target.x - this.x);
+      ctx.rotate(angle);
+    }
+
+    const tailWiggle = Math.sin(this.swimPhase) * 4;
+
+    if (this.type === 'yellowfin') {
+      ctx.fillStyle = this.finColor;
+      ctx.beginPath();
+      ctx.moveTo(-10, 0);
+      ctx.lineTo(-18, -6 + tailWiggle);
+      ctx.lineTo(-18, 6 + tailWiggle);
+      ctx.fill();
+
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 11, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(4, -3, 3, 3);
+      ctx.fillStyle = '#000';
+      ctx.fillRect(5, -2, 1, 1);
+
+    } else if (this.type === 'angler') {
+      ctx.fillStyle = this.finColor;
+      ctx.beginPath();
+      ctx.moveTo(-12, 0);
+      ctx.lineTo(-20, -10 + tailWiggle);
+      ctx.lineTo(-20, 10 + tailWiggle);
+      ctx.fill();
+
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(0, 0, 13, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = '#fbc531';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(2, -10);
+      ctx.quadraticCurveTo(10, -18, 14, -10);
+      ctx.stroke();
+      ctx.fillStyle = '#ffff4d';
+      ctx.beginPath();
+      ctx.arc(14, -10, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ff4d4d';
+      ctx.fillRect(4, -4, 3, 3);
+
+    } else {
+      ctx.fillStyle = this.finColor;
+      ctx.beginPath();
+      ctx.moveTo(-10, 0);
+      ctx.lineTo(-18, -8 + tailWiggle);
+      ctx.lineTo(-18, 8 + tailWiggle);
+      ctx.fill();
+
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 12, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(-4, -8);
+      ctx.lineTo(2, -12);
+      ctx.lineTo(6, -8);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(4, -4, 3, 3);
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(5, -3, 1, 1);
+    }
+
+    ctx.restore();
+
+    ctx.fillStyle = '#444';
+    ctx.fillRect(this.x - 12, this.y - 20, 24, 4);
+    ctx.fillStyle = '#4cd137';
+    ctx.fillRect(this.x - 12, this.y - 20, Math.max(0, (this.hp / this.maxHp) * 24), 4);
+  }
+}
+
+// --- TOWER CLASSES WITH ARTWORK ---
+class Tower {
+  constructor(gx, gy, type) {
+    this.gx = gx;
+    this.gy = gy;
+    this.x = gx * TILE_SIZE + TILE_SIZE / 2;
+    this.y = gy * TILE_SIZE + TILE_SIZE / 2;
+    this.type = type;
+    this.cooldown = 0;
+
+    if (type === 'fisherman') {
+      this.range = 140;
+      this.fireRate = 120;
+      this.hookTarget = null;
+      this.hookProgress = 0;
+    } else if (type === 'boat') {
+      this.range = 0;
+      this.fireRate = 180;
+      this.boatX = this.x;
+      this.dashing = false;
+      this.dashSpeed = 16;
+    } else {
+      this.range = 100;
+      this.fireRate = 30;
+      this.angle = 0;
+    }
+  }
+
+  update(enemies, projectiles) {
+    if (this.type === 'fisherman') {
+      if (this.hookTarget) {
+        this.hookProgress += 0.08;
+        if (this.hookProgress >= 1) {
+          this.hookTarget.hp = 0;
+          this.hookTarget.markedForDeletion = true;
+          gold += this.hookTarget.bounty;
+          this.hookTarget = null;
+          this.cooldown = this.fireRate;
+        }
+        return;
+      }
+
+      if (this.cooldown > 0) {
+        this.cooldown--;
+        return;
+      }
+
+      let target = null;
+      let maxHp = -1;
+      enemies.forEach(e => {
+        const dist = Math.hypot(e.x - this.x, e.y - this.y);
+        if (dist <= this.range && e.hp > maxHp) {
+          maxHp = e.hp;
+          target = e;
+        }
+      });
+
+      if (target) {
+        this.hookTarget = target;
+        this.hookProgress = 0;
+      }
+
+    } else if (this.type === 'boat') {
+      if (this.dashing) {
+        this.boatX += this.dashSpeed;
+
+        enemies.forEach(e => {
+          if (Math.abs(e.y - this.y) < TILE_SIZE / 2 && Math.abs(e.x - this.boatX) < 25) {
+            e.hp = 0;
+            e.markedForDeletion = true;
+            gold += e.bounty;
+          }
+        });
+
+        if (this.boatX > canvas.width + 40) {
+          this.boatX = this.x;
+          this.dashing = false;
+          this.cooldown = this.fireRate;
+        }
+      } else {
+        if (this.cooldown > 0) this.cooldown--;
+        else this.dashing = true;
+      }
+
+    } else {
+      if (this.cooldown > 0) this.cooldown--;
+
+      const target = enemies.find(e => Math.hypot(e.x - this.x, e.y - this.y) <= this.range);
+      if (target) {
+        this.angle = Math.atan2(target.y - this.y, target.x - this.x);
+        if (this.cooldown === 0) {
+          projectiles.push(new Projectile(this.x, this.y, target));
+          this.cooldown = this.fireRate;
+        }
+      }
+    }
+  }
+
+  draw() {
+    if (this.type === 'fisherman') {
+      // Fisherman Hut Artwork
+      ctx.fillStyle = '#8c593b'; // Pier Decking
+      ctx.fillRect(this.x - 16, this.y - 16, 32, 32);
+      
+      ctx.fillStyle = '#2ed573'; // Wooden Cabin Top
+      ctx.fillRect(this.x - 12, this.y - 12, 24, 20);
+      
+      ctx.fillStyle = '#1e8449'; // Roof Overhang
+      ctx.fillRect(this.x - 14, this.y - 14, 28, 4);
+
+      // Fisherman Pixel Avatar
+      ctx.fillStyle = '#f1c40f'; // Straw Hat
+      ctx.fillRect(this.x - 4, this.y - 8, 8, 4);
+      ctx.fillStyle = '#e67e22'; // Vest
+      ctx.fillRect(this.x - 3, this.y - 4, 6, 6);
+
+      // Reel Line Render
+      if (this.hookTarget) {
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y - 2);
+        const currX = this.x + (this.hookTarget.x - this.x) * this.hookProgress;
+        const currY = this.y + (this.hookTarget.y - this.y) * this.hookProgress;
+        ctx.lineTo(currX, currY);
+        ctx.stroke();
+
+        // Hook graphic
+        ctx.fillStyle = '#fbc531';
+        ctx.beginPath();
+        ctx.arc(currX, currY, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+    } else if (this.type === 'boat') {
+      // Base Dock Station
+      ctx.fillStyle = '#34495e';
+      ctx.fillRect(this.x - 16, this.y - 16, 32, 32);
+      ctx.fillStyle = '#e74c3c';
+      ctx.fillRect(this.x - 12, this.y - 12, 24, 24);
+
+      // Patrol Boat Art
+      ctx.save();
+      const bx = this.boatX;
+      const by = this.y;
+
+      // Wake Effect when charging/dashing
+      if (this.dashing) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.fillRect(bx - 30, by - 6, 12, 12);
+        ctx.fillRect(bx - 42, by - 3, 10, 6);
+      }
+
+      // Hull
+      ctx.fillStyle = '#00d2d3';
+      ctx.beginPath();
+      ctx.moveTo(bx + 16, by);
+      ctx.lineTo(bx - 14, by - 10);
+      ctx.lineTo(bx - 14, by + 10);
+      ctx.closePath();
+      ctx.fill();
+
+      // Cabin & Siren
+      ctx.fillStyle = '#222f3e';
+      ctx.fillRect(bx - 6, by - 5, 12, 10);
+      ctx.fillStyle = '#ff4757'; // Emergency Flashing Light
+      ctx.fillRect(bx - 2, by - 2, 4, 4);
+
+      ctx.restore();
+
+    } else {
+      // Basic Cannon Turret
+      ctx.fillStyle = '#7f8c8d'; // Base
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 14, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Rotating Barrel
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+
+      ctx.fillStyle = '#2c3e50'; // Metal Barrel
+      ctx.fillRect(0, -4, 16, 8);
+      ctx.fillStyle = '#f1c40f'; // Brass Ring
+      ctx.fillRect(4, -5, 3, 10);
+
+      ctx.restore();
+    }
+  }
+}
+
+class Projectile {
+  constructor(x, y, target) {
+    this.x = x;
+    this.y = y;
+    this.target = target;
+    this.speed = 6;
+    this.damage = 10;
+    this.markedForDeletion = false;
+  }
+
+  update() {
+    const dx = this.target.x - this.x;
+    const dy = this.target.y - this.y;
+    const distance = Math.hypot(dx, dy);
+
+    if (distance < this.speed) {
+      this.target.hp -= this.damage;
+      if (this.target.hp <= 0) {
+        this.target.markedForDeletion = true;
+        gold += this.target.bounty;
+      }
+      this.markedForDeletion = true;
+    } else {
+      this.x += (dx / distance) * this.speed;
+      this.y += (dy / distance) * this.speed;
+    }
+  }
+
+  draw() {
+    ctx.fillStyle = '#fbc531';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+// --- GAME LOOP & HANDLERS ---
+let towers = [];
+let enemies = [];
+let projectiles = [];
+let spawnTimer = 0;
+let animFrame = 0;
+
+function resetGame() {
+  towers = [];
+  enemies = [];
+  projectiles = [];
+  spawnTimer = 0;
+  gold = 150;
+  lives = 10;
+  wave = 1;
+}
+
+function isInside(pos, rect) {
+  return pos.x >= rect.x && pos.x <= rect.x + rect.w && pos.y >= rect.y && pos.y <= rect.y + rect.h;
+}
+
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mousePos = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+
+  if (gameState === 'START') {
+    if (isInside(mousePos, playBtn)) {
+      resetGame();
+      gameState = 'PLAYING';
+    } else if (isInside(mousePos, exitBtn)) {
+      gameState = 'EXITED';
+    }
+  } else if (gameState === 'PLAYING') {
+    const gx = Math.floor(mousePos.x / TILE_SIZE);
+    const gy = Math.floor(mousePos.y / TILE_SIZE);
+    const cost = COSTS[selectedTowerType];
+
+    if (grid[gy] && grid[gy][gx] === 0 && gold >= cost) {
+      const existingTower = towers.find(t => t.gx === gx && t.gy === gy);
+      if (!existingTower) {
+        towers.push(new Tower(gx, gy, selectedTowerType));
+        gold -= cost;
+      }
+    }
+  } else if (gameState === 'GAMEOVER') {
+    gameState = 'START';
+  }
+});
+
+function drawOceanGrid() {
+  animFrame += 0.03;
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (grid[r][c] === 1) {
+        ctx.fillStyle = '#1b4f72';
+        ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        ctx.strokeStyle = '#2874a6';
+        ctx.strokeRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      } else {
+        ctx.fillStyle = '#21618c';
+        ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = '#2980b9';
+        const offset = Math.sin(animFrame + c + r) * 3;
+        ctx.fillRect(c * TILE_SIZE + 10 + offset, r * TILE_SIZE + 18, 18, 2);
+      }
+    }
+  }
+  drawEndBoat();
+}
+
+function drawEndBoat() {
+  const endTile = waypoints[waypoints.length - 1];
+  const bx = endTile.x - 20;
+  const by = endTile.y - 20;
+  const bob = Math.sin(animFrame * 2) * 2;
+
+  ctx.fillStyle = '#e74c3c';
+  ctx.fillRect(bx + 5, by + 18 + bob, 30, 16);
+  ctx.fillStyle = '#ecf0f1';
+  ctx.fillRect(bx + 8, by + 10 + bob, 20, 10);
+  ctx.fillStyle = '#3498db';
+  ctx.fillRect(bx + 12, by + 12 + bob, 5, 5);
+}
+
+function drawPixelArtMenu() {
+  animFrame += 0.03;
+  ctx.fillStyle = '#1b4f72';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = 'rgba(12, 26, 36, 0.65)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#7ec8e3';
+  ctx.font = 'bold 38px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SURVIVE THE FISH', canvas.width / 2, 130);
+  ctx.font = 'bold 18px sans-serif';
+  ctx.fillStyle = '#fbc531';
+  ctx.fillText('COASTAL DEFENSE', canvas.width / 2, 165);
+
+  ctx.fillStyle = '#0097e6';
+  ctx.fillRect(playBtn.x, playBtn.y, playBtn.w, playBtn.h);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.fillText('PLAY GAME', playBtn.x + playBtn.w / 2, playBtn.y + 31);
+
+  ctx.fillStyle = '#c23616';
+  ctx.fillRect(exitBtn.x, exitBtn.y, exitBtn.w, exitBtn.h);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText('EXIT', exitBtn.x + exitBtn.w / 2, exitBtn.y + 31);
+}
+
+function gameLoop() {
+  if (gameState === 'START') {
+    drawPixelArtMenu();
+  } else if (gameState === 'PLAYING') {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    spawnTimer++;
+    if (spawnTimer % 50 === 0) {
+      const rand = Math.random();
+      let fishType = 'snapper';
+      if (rand < 0.35) fishType = 'yellowfin';
+      else if (rand > 0.8) fishType = 'angler';
+
+      enemies.push(new FishEnemy(fishType));
+    }
+
+    document.getElementById('gold').innerText = gold;
+    document.getElementById('lives').innerText = lives;
+
+    drawOceanGrid();
+
+    towers.forEach(t => { t.update(enemies, projectiles); t.draw(); });
+    
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      projectiles[i].update();
+      projectiles[i].draw();
+      if (projectiles[i].markedForDeletion) projectiles.splice(i, 1);
+    }
+
+    for (let i = enemies.length - 1; i >= 0; i--) {
+      enemies[i].update();
+      enemies[i].draw();
+      if (enemies[i].markedForDeletion) enemies.splice(i, 1);
+    }
+
+    if (lives <= 0) gameState = 'GAMEOVER';
+
+  } else if (gameState === 'GAMEOVER') {
+    ctx.fillStyle = 'rgba(12, 26, 36, 0.85)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = '#e84118';
+    ctx.font = 'bold 36px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('MISSION FAILED', canvas.width / 2, canvas.height / 2 - 20);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '18px sans-serif';
+    ctx.fillText('Click anywhere to return to start menu', canvas.width / 2, canvas.height / 2 + 30);
+  } else if (gameState === 'EXITED') {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0c1a24';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#7ec8e3';
+    ctx.font = '22px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Explorer offline. See you next expedition!', canvas.width / 2, canvas.height / 2);
+    return;
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('menu-toggle');
+    var panel = document.getElementById('menu-panel');
+    toggle.addEventListener('click', function () {
+      var isHidden = panel.hidden;
+      panel.hidden = !isHidden;
+      toggle.setAttribute('aria-expanded', String(isHidden));
+    });
+    document.addEventListener('click', function (e) {
+      if (!panel.hidden && !panel.contains(e.target) && !toggle.contains(e.target)) {
+        panel.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
